@@ -1,33 +1,53 @@
 <?php
+
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\ResponseFormatter;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function login(Request $request): JsonResponse
+    public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        try {
+            if (!Auth::attempt($request->only(['email', 'password']))) {
+                return ResponseFormatter::error(null, 'Email atau Kata Sandi anda salah!', 401);
+            }
 
-        if (!auth()->attempt($credentials)) {
-            throw ValidationException::withMessages([
-                'email' => [trans('auth.failed')],
+            $user = User::where('email', $request->email)->first();
+            return ResponseFormatter::success([
+                'token' => $user->createToken("API TOKEN")->plainTextToken,
+                'user' => $user,
             ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
         }
+    }
 
-        $user = User::whereEmail($request->email)->firstOrFail();
+    public function register(Request $request)
+    {
+        try {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
 
-        $token = $user->createToken('auth-token');
-
-        return response()->json([
-            'token' => $token->plainTextToken,
-        ]);
+            return ResponseFormatter::success([
+                'user' => $user,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 }
