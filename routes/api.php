@@ -1,18 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\ApiController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\AppController;
-use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\RoleController;
-use App\Http\Controllers\Api\InvoiceController;
-use App\Http\Controllers\Api\PackageController;
-use App\Http\Controllers\Api\PermissionController;
-use App\Http\Controllers\Api\UserInvoicesController;
-use App\Http\Controllers\Api\PackageUserMetasController;
-use App\Http\Controllers\Api\UserInstallationsController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,8 +15,8 @@ use App\Http\Controllers\Api\UserInstallationsController;
 |
 */
 
-Route::post('/login', [ApiController::class, 'login']);
-Route::post('/register', [ApiController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', [ApiController::class, 'user']);
@@ -34,5 +24,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/ward', [ApiController::class, 'ward']);
     Route::post('/installation', [ApiController::class, 'installation']);
     Route::post('/installation/update', [ApiController::class, 'updateInstallation']);
-    Route::get('/invoice', [ApiController::class, 'getInvoice']);
+    Route::get('/invoices', [ApiController::class, 'getInvoice']);
+    Route::get('/promo', [ApiController::class, 'promo']);
+    Route::get('/article', [ApiController::class, 'article']);
+    Route::get('/about', [ApiController::class, 'about']);
+    Route::post('/invoice/create', [ApiController::class, 'createInvoice']);
+    Route::post('/invoice/offline', [ApiController::class, 'paymentOffline']);
+    Route::get('/invoice', [ApiController::class, 'getInvoices']);
 });

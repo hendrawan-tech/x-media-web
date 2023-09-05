@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
+use App\Models\App;
 use App\Models\Installation;
 use App\Models\Invoice;
+use App\Models\User;
 use App\Models\UserMeta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -15,6 +17,7 @@ class ApiController extends Controller
     public function user(Request $request)
     {
         $user = $request->user();
+        $user['meta'] = UserMeta::where('id', $user->user_meta_id)->first();
         if ($user) {
             return ResponseFormatter::success(['user' => $user]);
         } else {
@@ -72,8 +75,75 @@ class ApiController extends Controller
 
     function getInvoice(Request $request)
     {
-        $data = Invoice::where('user_id', $request->user()->id)->first();
+        $user = $request->user();
+        if ($user->role == 'user') {
+            $data = Invoice::where('user_id', $user->id)->get();
+        } else {
+            $data = User::where('role', 'user')->with('userMeta.package', 'installations')->get();
+        }
 
+        return ResponseFormatter::success($data);
+    }
+
+    function promo(Request $request)
+    {
+        $data = App::where('type', 'promo')->get();
+        return ResponseFormatter::success($data);
+    }
+
+    function about(Request $request)
+    {
+        $data = App::where('type', 'about')->first();
+        return ResponseFormatter::success($data);
+    }
+
+    function article(Request $request)
+    {
+        $data = App::where('type', 'article')->get();
+        return ResponseFormatter::success($data);
+    }
+
+    function paymentOffline(Request $request)
+    {
+        $external_id = rand(1000000000, 9999999999);
+        Invoice::create([
+            'external_id' => $external_id,
+            'price' => $request->price,
+            'status' => "SUCCESS",
+            'invoice_url' => "Cash",
+            'user_id' => $request->user_id,
+        ]);
+        return ResponseFormatter::success();
+    }
+
+    function createInvoice(Request $request)
+    {
+        $user = $request->user();
+        $secret_key = 'Basic ' . config('xendit.key_auth');
+        $external_id = rand(1000000000, 9999999999);
+        $data_request = Http::withHeaders([
+            'Authorization' => $secret_key
+        ])->post('https://api.xendit.co/v2/invoices', [
+            'external_id' => (string)$external_id,
+            'amount' => (int)$user->userMeta->package->price,
+            "payer_email" => $user->email,
+            "description" => "Pembayaran Tagihan Wifi " . $user->name,
+        ]);
+        $response = $data_request->object();
+        Invoice::create([
+            'external_id' => $external_id,
+            'price' => (int)$user->userMeta->package->price,
+            'status' => $response->status,
+            'invoice_url' => $response->invoice_url,
+            'user_id' => $user->id,
+        ]);
+        return ResponseFormatter::success();
+    }
+
+    function getInvoices(Request $request)
+    {
+        $user = $request->user();
+        $data = Invoice::where(['user_id' => $user->id, 'status' => 'PENDING'])->first();
         return ResponseFormatter::success($data);
     }
 }

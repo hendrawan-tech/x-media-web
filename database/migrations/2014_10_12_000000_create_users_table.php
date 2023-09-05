@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -18,7 +19,7 @@ return new class extends Migration {
             $table->string('password');
             $table->string('remember_token', 100)->nullable();
             $table->string('role')->default('user');
-            $table->unsignedBigInteger('user_meta_id');
+            $table->unsignedBigInteger('user_meta_id')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

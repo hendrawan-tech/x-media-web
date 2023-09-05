@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -14,6 +15,7 @@ return new class extends Migration {
             $table->bigIncrements('id');
             $table->string('status');
             $table->dateTime('date_install');
+            $table->dateTime('end_date');
             $table->unsignedBigInteger('user_id');
 
             $table->timestamps();

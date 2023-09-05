@@ -37,7 +37,7 @@ class User extends Authenticatable
 
     public function installations()
     {
-        return $this->hasMany(Installation::class);
+        return $this->hasOne(Installation::class);
     }
 
     public function invoices()

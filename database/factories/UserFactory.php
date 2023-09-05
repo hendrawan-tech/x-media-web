@@ -29,7 +29,6 @@ class UserFactory extends Factory
             'password' => \Hash::make('password'),
             'remember_token' => Str::random(10),
             'role' => $this->faker->text(255),
-            'user_meta_id' => \App\Models\UserMeta::factory(),
         ];
     }
 
