@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('installations', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('status');
-            $table->dateTime('date_install');
-            $table->dateTime('end_date');
+            $table->date('date_install');
+            $table->date('end_date');
+            $table->string('price')->nullable();
             $table->unsignedBigInteger('user_id');
 
             $table->timestamps();

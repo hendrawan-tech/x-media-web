@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -26,7 +27,6 @@ return new class extends Migration {
             $table->string('ward_id');
             $table->string('ward_name');
             $table->unsignedBigInteger('package_id');
-            $table->string('status');
 
             $table->timestamps();
             $table->softDeletes();

@@ -34,35 +34,35 @@ class DatabaseSeeder extends Seeder
             'speed' => '3 MBPS',
             'description' => 'Paket hemat dan stabil',
         ]);
-        UserMeta::create([
-            'phone' => '085213873678',
-            'address' => 'Bondowoso',
-            'rt' => '2',
-            'rw' => '1',
-            'longlat' => '-',
-            'province_id' => 35,
-            'province_name' => 'Jawa Timur',
-            'regencies_id' => 3511,
-            'regencies_name' => 'Bondowoso',
-            'district_id' => '351111',
-            'district_name' => 'Bondowoso',
-            'ward_id' => '3511111007',
-            'ward_name' => 'Dabasah',
-            'package_id' => 1,
-            'status' => 'Aktif',
-        ]);
-        User::create([
-            'name' => 'User',
-            'email' => 'user@xmedia.net',
-            'password' => \Hash::make('password'),
-            'user_meta_id' => 1,
-        ]);
-        Installation::create([
-            'status' => 'Aktif',
-            'date_install' => now(),
-            'end_date' => now(),
-            'user_id' => 3,
-        ]);
+        // UserMeta::create([
+        //     'phone' => '085213873678',
+        //     'address' => 'Bondowoso',
+        //     'rt' => '2',
+        //     'rw' => '1',
+        //     'longlat' => '-',
+        //     'province_id' => 35,
+        //     'province_name' => 'Jawa Timur',
+        //     'regencies_id' => 3511,
+        //     'regencies_name' => 'Bondowoso',
+        //     'district_id' => '351111',
+        //     'district_name' => 'Bondowoso',
+        //     'ward_id' => '3511111007',
+        //     'ward_name' => 'Dabasah',
+        //     'package_id' => 1,
+        //     'status' => 'Aktif',
+        // ]);
+        // User::create([
+        //     'name' => 'User',
+        //     'email' => 'user@xmedia.net',
+        //     'password' => \Hash::make('password'),
+        //     'user_meta_id' => 1,
+        // ]);
+        // Installation::create([
+        //     'status' => 'Aktif',
+        //     'date_install' => now(),
+        //     'end_date' => now(),
+        //     'user_id' => 3,
+        // ]);
         $this->call(PermissionsSeeder::class);
     }
 }

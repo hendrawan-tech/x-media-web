@@ -1,7 +1,11 @@
 <?php
 
-use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\Api\InvoiceController;
+use App\Http\Controllers\Api\AppController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\DataController;
+use App\Http\Controllers\Api\InstallationController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,16 +23,34 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/user', [ApiController::class, 'user']);
-    Route::get('/district', [ApiController::class, 'district']);
-    Route::get('/ward', [ApiController::class, 'ward']);
-    Route::post('/installation', [ApiController::class, 'installation']);
-    Route::post('/installation/update', [ApiController::class, 'updateInstallation']);
-    Route::get('/invoices', [ApiController::class, 'getInvoice']);
-    Route::get('/promo', [ApiController::class, 'promo']);
-    Route::get('/article', [ApiController::class, 'article']);
-    Route::get('/about', [ApiController::class, 'about']);
-    Route::post('/invoice/create', [ApiController::class, 'createInvoice']);
-    Route::post('/invoice/offline', [ApiController::class, 'paymentOffline']);
-    Route::get('/invoice', [ApiController::class, 'getInvoices']);
+    // User
+    Route::get('/user', [UserController::class, 'user']);
+    Route::get('/users', [UserController::class, 'getUser']);
+    Route::post('/user', [UserController::class, 'createUser']);
+
+    // Installation
+    Route::post('/installation', [InstallationController::class, 'installation']);
+    Route::get('/installation', [InstallationController::class, 'listInstallation']);
+    Route::post('/installation/update', [InstallationController::class, 'updateInstallation']);
+
+    // Invoice
+    Route::post('/invoice/create', [InvoiceController::class, 'createInvoice']);
+    Route::post('/invoice/offline', [InvoiceController::class, 'paymentOffline']);
+    Route::post('/invoice/xendit', [InvoiceController::class, 'paymentXendit']);
+    Route::get('/invoices', [InvoiceController::class, 'listInvoice']);
+    Route::get('/invoice', [InvoiceController::class, 'myInvoice']);
+    Route::post('/invoice/status', [InvoiceController::class, 'checkStatus']);
+
+    // App
+    Route::get('/promo', [AppController::class, 'promo']);
+    Route::get('/article', [AppController::class, 'article']);
+    Route::get('/about', [AppController::class, 'about']);
+
+    // Data
+    Route::get('/district', [DataController::class, 'district']);
+    Route::get('/ward', [DataController::class, 'ward']);
+    Route::get('/package', [DataController::class, 'package']);
 });
+
+Route::get('/bulk-invoice', [InvoiceController::class, 'bulkCreateInvoice']);
+Route::post('/invoice/callback', [InvoiceController::class, 'handleCallback']);
