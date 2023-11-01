@@ -50,6 +50,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/district', [DataController::class, 'district']);
     Route::get('/ward', [DataController::class, 'ward']);
     Route::get('/package', [DataController::class, 'package']);
+
+    Route::get('/promo', [AppController::class, 'promo']);
+    Route::get('/about', [AppController::class, 'about']);
+    Route::get('/article', [AppController::class, 'article']);
 });
 
 Route::get('/bulk-invoice', [InvoiceController::class, 'bulkCreateInvoice']);
