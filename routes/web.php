@@ -8,6 +8,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\PermissionController;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,3 +40,7 @@ Route::prefix('/')
         Route::resource('packages', PackageController::class);
         Route::resource('users', UserController::class);
     });
+
+Route::get('/storage', function () {
+    Artisan::call('storage:link');
+});

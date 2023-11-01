@@ -23,7 +23,7 @@ class AppController extends Controller
 
     function article(Request $request)
     {
-        $data = App::where('type', 'article')->get();
+        $data = App::where('type', 'berita')->get();
         return ResponseFormatter::success($data);
     }
 }
