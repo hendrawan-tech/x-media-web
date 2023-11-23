@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('status');
             $table->date('date_install');
             $table->date('end_date');
+            $table->string('first_payment');
             $table->string('price')->nullable();
             $table->unsignedBigInteger('user_id');
 

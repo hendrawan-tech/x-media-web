@@ -28,6 +28,7 @@ class UserMeta extends Model
         'ward_id',
         'ward_name',
         'package_id',
+        'xmedia_id',
         'status',
     ];
 

@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('district_name');
             $table->string('ward_id');
             $table->string('ward_name');
+            $table->string('xmedia_id');
             $table->unsignedBigInteger('package_id');
 
             $table->timestamps();

@@ -27,6 +27,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', [UserController::class, 'user']);
     Route::get('/users', [UserController::class, 'getUser']);
     Route::post('/user', [UserController::class, 'createUser']);
+    Route::post('/user/change-password', [UserController::class, 'changePassword']);
 
     // Installation
     Route::post('/installation', [InstallationController::class, 'installation']);
@@ -34,9 +35,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/installation/update', [InstallationController::class, 'updateInstallation']);
 
     // Invoice
-    Route::post('/invoice/create', [InvoiceController::class, 'createInvoice']);
+    // Route::post('/invoice/create', [InvoiceController::class, 'createInvoice']);
     Route::post('/invoice/offline', [InvoiceController::class, 'paymentOffline']);
-    Route::post('/invoice/xendit', [InvoiceController::class, 'paymentXendit']);
+    // Route::post('/invoice/xendit', [InvoiceController::class, 'paymentXendit']);
     Route::get('/invoices', [InvoiceController::class, 'listInvoice']);
     Route::get('/invoice', [InvoiceController::class, 'myInvoice']);
     Route::post('/invoice/status', [InvoiceController::class, 'checkStatus']);

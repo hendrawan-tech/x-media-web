@@ -13,7 +13,7 @@ class Installation extends Model
     use Searchable;
     use SoftDeletes;
 
-    protected $fillable = ['status', 'date_install', 'user_id', 'end_date', 'price'];
+    protected $fillable = ['status', 'date_install', 'user_id', 'end_date', 'price', 'first_payment'];
 
     protected $searchableFields = ['*'];
 
